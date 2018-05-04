@@ -1,6 +1,7 @@
 const Asset = require('../Asset');
 const localRequire = require('../utils/localRequire');
 const promisify = require('../utils/promisify');
+const getLessFileManager = require('../visitors/lessFileManager');
 
 class LESSAsset extends Asset {
   constructor(name, pkg, options) {
@@ -55,6 +56,9 @@ function urlPlugin(asset) {
 
       visitor.run = visitor.visit;
       pluginManager.addVisitor(visitor);
+
+      let lessFileManager = getLessFileManager(less, asset.options);
+      pluginManager.addFileManager(new lessFileManager());
     }
   };
 }
